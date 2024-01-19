@@ -3,18 +3,18 @@
 while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done
 
 # enable core dump
-echo '* soft core unlimited' | sudo tee -a /etc/security/limits.conf
-sudo sysctl -w kernel.core_pattern=core.%u.%p.%t
-sudo systemctl restart apport
-echo 'DefaultLimitCORE=infinity' | sudo tee -a /etc/systemd/system.conf
-sudo systemctl daemon-reexec
+# echo '* soft core unlimited' | sudo tee -a /etc/security/limits.conf
+# sudo sysctl -w kernel.core_pattern=core.%u.%p.%t
+# sudo systemctl restart apport
+# echo 'DefaultLimitCORE=infinity' | sudo tee -a /etc/systemd/system.conf
+# sudo systemctl daemon-reexec
 
 # install zsh and other build essentials
-sudo apt update
-sudo apt install -y build-essential zsh gdb
-sudo apt install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
-wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-sudo chsh -s /bin/zsh ubuntu
+# sudo apt update
+# sudo apt install -y build-essential zsh gdb
+# sudo apt install -y linux-tools-common linux-tools-generic linux-tools-`uname -r`
+# wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+# sudo chsh -s /bin/zsh ubuntu
 
 # tune kernel params
 echo 'net.core.somaxconn=50000' | sudo tee -a /etc/sysctl.conf

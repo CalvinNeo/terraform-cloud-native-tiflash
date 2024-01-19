@@ -3,7 +3,7 @@
 locals {
   # image is region-local. If you changed region, please also change image.
   region = "us-west-2"
-  image  = "ami-0ceeab680f529cc36" # Ubuntu 20.04
+  image  = "ami-058168290d30b9c52" # Ubuntu 22.04
 
   # If you want to change instance type, ensure that GP3 EBS is available in the instance type.
   tidb_instance    = "c5.2xlarge"
