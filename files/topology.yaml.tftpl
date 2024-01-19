@@ -65,6 +65,7 @@ tiflash_servers:
       dfs.prefix: "local-cluster"
       dfs.s3-endpoint: "http://s3.${s3_region}.amazonaws.com"
       dfs.s3-bucket: ${s3_bucket}
+      dfs.s3-region:  "${s3_region}"
       storage.api-version: 2
       storage.enable-ttl: true
       engine-store:
