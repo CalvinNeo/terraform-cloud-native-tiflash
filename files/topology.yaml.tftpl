@@ -5,8 +5,16 @@ global:
 
 server_configs:
   tidb: {}
-  tikv: {}
-  pd: {}
+  tikv:
+  
+  pd:
+    replication.enable-placement-rules: true
+    replication.location-labels: ["host"]
+    replication.max-replica: 1
+    keyspace.pre-alloc: ["a"]
+    schedule.merge-schedule-limit: 0
+    schedule.low-space-ration: 1.0
+    schedule.replica-schedule-limit: 500
   tiflash: {}
 
 tidb_servers:
@@ -15,6 +23,13 @@ tidb_servers:
     config:
       disaggregated-tiflash: true
       use-autoscaler: false
+      # optracing.enable: true
+      keyspace-name: "a"
+      security.enable-sem: false
+      tiflash-replicas.constraints: [{"key": "engine", "op": "in", "values": ["tiflash"]}, {"key": "engine_role", "op": "in", "values": ["write"]}]
+      tiflash-replicas.group-id: "enable_s3_wn_region"
+      tiflash-replicas.extra-s3-rule: false
+      tiflash-replicas.min-count: 1
   %{~ endfor ~}
 
 tikv_servers:
@@ -66,13 +81,6 @@ tiflash_servers:
 
 pd_servers:
   - host: 172.31.8.1
-    config:
-      keyspace.pre-alloc: ["a"]
-      schedule.merge-schedule-limit: 0
-      schedule.low-space-ration: 1.0
-      schedule.replica-schedule-limit: 500
-      replication.max-replica: 1
-
 
 monitoring_servers:
   - host: 172.31.8.1
