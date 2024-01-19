@@ -4,9 +4,12 @@ global:
   deploy_dir: "/tidb-deploy"
 
 server_configs:
-  tidb: {}
-  tikv:
-  
+  tidb:
+    ratelimit.full-speed: 1048576000
+    ratelimit.full-speed-capacity: 1048576000
+    ratelimit.low-speed-watermark: 1048576000000
+    ratelimit.block-write-watermark: 1048576000000
+  tikv: {}
   pd:
     replication.enable-placement-rules: true
     replication.location-labels: ["host"]
