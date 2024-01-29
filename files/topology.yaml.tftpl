@@ -44,7 +44,8 @@ tidb_servers:
 tikv_servers:
   %{~ for idx, host in tikv_hosts ~}
   - host: ${host}
-    config: server.labels: { host: "tikv${idx}" }
+    config:
+      server.labels: { host: "tikv${idx}" }
   %{~ endfor ~}
 
 tiflash_servers:
