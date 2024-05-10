@@ -4,6 +4,21 @@ global:
   deploy_dir: "/tidb-deploy"
 
 server_configs:
+  pd:
+    replication.enable-placement-rules: true
+    replication.location-labels: ["host"]
+    replication.max-replica: 1
+    keyspace.pre-alloc: ["a"]
+    schedule.merge-schedule-limit: 0
+    schedule.low-space-ration: 1.0
+    schedule.replica-schedule-limit: 500
+  tikv:
+    storage.enable-ttl:  true
+    storage.api-version:  2
+    dfs.prefix:  "local-cluster"
+    dfs.s3-endpoint:  http://s3.${s3_region}.amazonaws.com
+    dfs.s3-bucket:  ${s3_bucket}
+    dfs.s3-region:  "${s3_region}"
   tidb:
     disaggregated-tiflash: true
     keyspace-name: "a"
@@ -19,22 +34,16 @@ server_configs:
     tiflash-replicas.group-id: "enable_s3_wn_region"
     tiflash-replicas.extra-s3-rule: false
     tiflash-replicas.min-count: 1
-  tikv:
-    storage.enable-ttl:  true
-    storage.api-version:  2
-    dfs.prefix:  "local-cluster"
-    dfs.s3-endpoint:  http://s3.${s3_region}.amazonaws.com
-    dfs.s3-bucket:  ${s3_bucket}
-    dfs.s3-region:  "${s3_region}"
-  pd:
-    replication.enable-placement-rules: true
-    replication.location-labels: ["host"]
-    replication.max-replica: 1
-    keyspace.pre-alloc: ["a"]
-    schedule.merge-schedule-limit: 0
-    schedule.low-space-ration: 1.0
-    schedule.replica-schedule-limit: 500
-  tiflash: {}
+  tiflash:
+    flash.use_autoscaler: false
+    storage.s3.endpoint: http://s3.${s3_region}.amazonaws.com
+    storage.s3.bucket: ${s3_bucket}
+    storage.s3.root: /tiflash-cs3/
+    storage.api_version: 2
+
+pd_servers:
+  - host: 172.31.8.1
+
 
 tidb_servers:
   %{~ for host in tidb_hosts ~}
@@ -53,11 +62,7 @@ tiflash_servers:
   - host: ${host}
     config:
       flash.disaggregated_mode: tiflash_write
-      storage.s3.endpoint: http://s3.${s3_region}.amazonaws.com
-      storage.s3.bucket: ${s3_bucket}
-      storage.s3.root: /tiflash-cs3/
       storage.main.dir: ["/tidb-deploy/tiflash-9000/data"]
-      storage.api_version: 2
       profiles.default.remote_checkpoint_only_upload_manifest: false
       profiles.default.fap_handle_concurrency: 10
       profiles.default.fap_task_timeout_seconds: 120
@@ -77,19 +82,13 @@ tiflash_servers:
     config:
       delta_index_cache_size: 2000
       flash.disaggregated_mode: tiflash_compute
-      storage.s3.endpoint: http://s3.${s3_region}.amazonaws.com
-      storage.s3.bucket: ${s3_bucket}
-      storage.s3.root: /tiflash-cs3/
       storage.remote.cache.dir: /tidb-deploy/tiflash-9000/remote_cache
       storage.remote.cache.capacity: 100000000000
       storage.main.dir: ["/tidb-deploy/tiflash-9000/data"]
   %{~ endfor ~}
 
-pd_servers:
+grafana_servers:
   - host: 172.31.8.1
 
 monitoring_servers:
-  - host: 172.31.8.1
-
-grafana_servers:
   - host: 172.31.8.1
