@@ -7,7 +7,7 @@ locals {
 
   # If you want to change instance type, ensure that GP3 EBS is available in the instance type.
   tidb_instance    = "c5.2xlarge"
-  tikv_instance    = "c5.2xlarge"
+  tikv_instance    = "r5.2xlarge"
   pd_instance      = "c5.2xlarge"
   tiflash_instance = "r5.2xlarge"
   center_instance  = "c5.2xlarge"
