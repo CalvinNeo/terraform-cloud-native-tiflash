@@ -9,12 +9,12 @@ server_configs:
     replication.location-labels: ["host"]
     replication.max-replica: 1
     keyspace.pre-alloc: ["a"]
-    schedule.merge-schedule-limit: 8
+    schedule.merge-schedule-limit: 0
     schedule.low-space-ration: 1.0
     schedule.replica-schedule-limit: 500
     schedule.split-merge-interval: "5s"
-    schedule.max-merge-region-size: 2000
-    schedule.max-merge-region-keys: 200000000
+    schedule.max-merge-region-size: 200
+    schedule.max-merge-region-keys: 2000000
   tikv:
     storage.enable-ttl: true
     storage.api-version: 2
@@ -22,10 +22,10 @@ server_configs:
     dfs.s3-endpoint:  http://s3.${s3_region}.amazonaws.com
     dfs.s3-bucket:  ${s3_bucket}
     dfs.s3-region:  "${s3_region}"
-    coprocessor.region-split-keys: 200000000
-    coprocessor.region-split-size: "2000MiB"
-    rfstore.region-split-keys: 200000000
-    rfstore.region-split-size: "2000MiB"
+    coprocessor.region-split-keys: 2000000
+    coprocessor.region-split-size: "200MiB"
+    rfstore.region-split-keys: 2000000
+    rfstore.region-split-size: "200MiB"
   tidb:
     disaggregated-tiflash: true
     keyspace-name: "a"
@@ -82,7 +82,7 @@ tiflash_servers:
       dfs.s3-region:  "${s3_region}"
       storage.api-version: 2
       storage.enable-ttl: true
-      engine-store.enable-fast-add-peer: false
+      engine-store.enable-fast-add-peer: true
   %{~ endfor ~}
   %{~ for host in tiflash_compute_hosts ~}
   - host: ${host}
