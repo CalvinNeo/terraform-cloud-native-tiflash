@@ -12,9 +12,9 @@ server_configs:
     schedule.merge-schedule-limit: 0
     schedule.low-space-ration: 1.0
     schedule.replica-schedule-limit: 500
-    schedule.split-merge-interval: "5s"
-    schedule.max-merge-region-size: 200
-    schedule.max-merge-region-keys: 2000000
+#    schedule.split-merge-interval: "5s"
+#    schedule.max-merge-region-size: 200
+#    schedule.max-merge-region-keys: 2000000
   tikv:
     storage.enable-ttl: true
     storage.api-version: 2
@@ -22,10 +22,10 @@ server_configs:
     dfs.s3-endpoint:  http://s3.${s3_region}.amazonaws.com
     dfs.s3-bucket:  ${s3_bucket}
     dfs.s3-region:  "${s3_region}"
-    coprocessor.region-split-keys: 2000000
-    coprocessor.region-split-size: "200MiB"
-    rfstore.region-split-keys: 2000000
-    rfstore.region-split-size: "200MiB"
+#    coprocessor.region-split-keys: 2000000
+#    coprocessor.region-split-size: "200MiB"
+#    rfstore.region-split-keys: 2000000
+#    rfstore.region-split-size: "200MiB"
   tidb:
     disaggregated-tiflash: true
     keyspace-name: "a"
@@ -74,7 +74,7 @@ tiflash_servers:
       profiles.default.fap_handle_concurrency: 30
       profiles.default.fap_task_timeout_seconds: 120
     learner_config:
-      raftstore.snap-handle-pool-size: 2
+#      raftstore.snap-handle-pool-size: 2
       log-level: debug
       dfs.prefix: "local-cluster"
       dfs.s3-endpoint: "http://s3.${s3_region}.amazonaws.com"
