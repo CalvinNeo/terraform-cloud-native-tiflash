@@ -6,7 +6,8 @@ global:
 server_configs:
   tidb: {}
   tikv: {}
-  pd: {}
+  pd: 
+    schedule.replica-schedule-limit: 500
   tiflash: {}
 
 tidb_servers:
@@ -43,6 +44,11 @@ tiflash_servers:
       storage.remote.cache.dir: /tidb-deploy/tiflash-9000/remote_cache
       storage.remote.cache.capacity: 100000000000
       storage.main.dir: ["/tidb-deploy/tiflash-9000/data"]
+      profiles.default.remote_checkpoint_only_upload_manifest: false
+      profiles.default.fap_handle_concurrency: 30
+      profiles.default.fap_task_timeout_seconds: 120
+    learner_config:
+      engine-store.enable-fast-add-peer: true
   %{~ endfor ~}
 
 pd_servers:
