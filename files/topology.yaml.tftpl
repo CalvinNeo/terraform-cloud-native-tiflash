@@ -32,6 +32,11 @@ tiflash_servers:
       storage.s3.bucket: ${s3_bucket}
       storage.s3.root: /tiflash-cs3/
       storage.main.dir: ["/tidb-deploy/tiflash-9000/data"]
+      profiles.default.remote_checkpoint_only_upload_manifest: false
+      profiles.default.fap_handle_concurrency: 30
+      profiles.default.fap_task_timeout_seconds: 120
+    learner_config:
+      engine-store.enable-fast-add-peer: true
   %{~ endfor ~}
   %{~ for host in tiflash_compute_hosts ~}
   - host: ${host}
@@ -44,11 +49,6 @@ tiflash_servers:
       storage.remote.cache.dir: /tidb-deploy/tiflash-9000/remote_cache
       storage.remote.cache.capacity: 100000000000
       storage.main.dir: ["/tidb-deploy/tiflash-9000/data"]
-      profiles.default.remote_checkpoint_only_upload_manifest: false
-      profiles.default.fap_handle_concurrency: 30
-      profiles.default.fap_task_timeout_seconds: 120
-    learner_config:
-      engine-store.enable-fast-add-peer: true
   %{~ endfor ~}
 
 pd_servers:
