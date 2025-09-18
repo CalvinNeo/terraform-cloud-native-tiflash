@@ -75,7 +75,7 @@ resource "aws_instance" "tidb" {
 resource "aws_network_interface" "pd" {
   subnet_id       = aws_subnet.main.id
   private_ips     = ["172.31.8.1"]
-  security_groups = [aws_security_group.ssh.id, aws_security_group.etcd.id, aws_security_group.grafana.id]
+  security_groups = [aws_security_group.ssh.id, aws_security_group.etcd.id]
 }
 
 resource "aws_instance" "pd" {

@@ -1,5 +1,5 @@
 locals {
-  namespace         = "calvin-cloud"
+  namespace         = "calvin-s3-bench"
   n_tidb            = 0
   n_tikv            = 0
   n_tiflash_write   = 1
